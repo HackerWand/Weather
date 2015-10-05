@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class WeatherOpenHelper extends SQLiteOpenHelper{
 
+	protected final static String DBNAME="weatherdb.db";
+
+	protected final static int VERSION=1;
 	//创建省份表
 	private final static String CREATE_PROVINCE="create table province("
 			+"id integer primary key autoincrement,"
@@ -26,11 +29,20 @@ public class WeatherOpenHelper extends SQLiteOpenHelper{
 			+"code text,"
 			+"cid integer)";
 	
+		
+	private static WeatherOpenHelper openHelper=null;
 	
-	public WeatherOpenHelper(Context context, String name,
+	protected WeatherOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
 		super(context, name, factory, version);
 		// TODO 自动生成的构造函数存根
+	}
+	
+	public static WeatherOpenHelper getWeatherInstance(Context context){
+		if(openHelper==null){
+			openHelper=new WeatherOpenHelper(context, DBNAME, null, VERSION);
+		}
+		return openHelper;
 	}
 
 	@Override
