@@ -11,7 +11,10 @@ import com.example.weather.tool.Utility;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +51,14 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自动生成的方法存根
 		super.onCreate(savedInstanceState);
+		
+		SharedPreferences pre= PreferenceManager.getDefaultSharedPreferences(this);
+		if(pre.getBoolean("selected", false)){
+			Intent intent =new Intent(this,WeatherInfo.class);
+			startActivity(intent);
+			finish();
+		}
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mian_activity);
 		
@@ -75,6 +86,11 @@ public class MainActivity extends Activity implements OnItemClickListener{
 				queryCounty();
 				break;
 			case ISCOUNTY:
+				String code=countyList.get(index).getCode();
+				Intent intent=new Intent(this,WeatherInfo.class);
+				intent.putExtra("code", code);
+				startActivity(intent);
+				finish();
 				break;
 		}
 			
@@ -204,5 +220,23 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	protected void makeTextTo(String text){
 		Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 	}
+
+	@Override
+	public void onBackPressed() {
+		// TODO 自动生成的方法存根
+		switch (curlevel) {
+			case ISPROVINCE:
+				finish();
+				break;
+			case ISCITY:
+				queryProvince();
+				break;
+			case ISCOUNTY:
+				queryCity();
+				break;
+		}
+	}
+	
+	
 }
 

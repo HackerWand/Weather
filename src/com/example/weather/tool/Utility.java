@@ -1,5 +1,14 @@
 package com.example.weather.tool;
 
+import java.util.prefs.Preferences;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -66,6 +75,35 @@ public class Utility {
 		
 		return true;
 		
+	}
+	
+	public static void handleJSON(Context context,String data){
+		try {
+			JSONObject json=new JSONObject(data);
+			JSONObject weatherJson=json.getJSONObject("weatherinfo");
+			String name=weatherJson.getString("city");
+			String id=weatherJson.getString("cityid");
+			String temp1=weatherJson.getString("temp1");
+			String temp2=weatherJson.getString("temp2");
+			String desp=weatherJson.getString("weather");
+			String pushTime=weatherJson.getString("ptime");
+			saveWeatherInfo(context, name, id, temp1, temp2, desp, pushTime);
+		} catch (JSONException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveWeatherInfo(Context context,String name,String id,String temp1,String temp2,String weather,String time){
+		SharedPreferences.Editor editor= PreferenceManager.getDefaultSharedPreferences(context).edit();
+		editor.putBoolean("selected", true);
+		editor.putString("name", name);
+		editor.putString("id", id);
+		editor.putString("temp1", temp1);
+		editor.putString("temp2", temp2);
+		editor.putString("desp", weather);
+		editor.putString("pushTime", time);
+		editor.commit();
 	}
 	
 }
