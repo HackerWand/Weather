@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.*;
 
@@ -17,7 +20,7 @@ import com.example.weather.tool.HttpBackInterface;
 import com.example.weather.tool.HttpTool;
 import com.example.weather.tool.Utility;
 
-public class WeatherInfo extends Activity{
+public class WeatherInfo extends Activity implements OnClickListener{
 	
 	protected TextView cityName=null;
 	protected TextView time=null;
@@ -25,7 +28,8 @@ public class WeatherInfo extends Activity{
 	protected TextView weatherText=null;
 	protected TextView temp1=null;
 	protected TextView temp2=null;
-	
+	protected Button switchCity=null;
+	protected Button updateInfo=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,11 @@ public class WeatherInfo extends Activity{
 		weatherText=(TextView)findViewById(R.id.weather_desp);
 		temp1=(TextView)findViewById(R.id.temp1);
 		temp2=(TextView)findViewById(R.id.temp2);
+		switchCity=(Button)findViewById(R.id.switch_city);
+		updateInfo=(Button)findViewById(R.id.update);
+		
+		switchCity.setOnClickListener(this);
+		updateInfo.setOnClickListener(this);
 		
 		//判断是否已经选中的地区
 		SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
@@ -114,5 +123,27 @@ public class WeatherInfo extends Activity{
 				});
 			}
 		});
+	}
+
+	@Override
+	public void onClick(View view) {
+		// TODO 自动生成的方法存根
+		switch(view.getId()){
+			case R.id.switch_city:
+				Intent intent=new Intent(this,MainActivity.class);
+				intent.putExtra("switch", true);
+				startActivity(intent);
+				SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(this).edit();
+				editor.putBoolean("selected", false);
+				editor.commit();
+				finish();
+				break;
+			case R.id.update:
+				time.setText("更新中。。");
+				SharedPreferences pre=PreferenceManager.getDefaultSharedPreferences(this);
+				if(!TextUtils.isEmpty(pre.getString("id", "")))
+					queryWeatherInfo(pre.getString("id", ""));
+				break;
+		}
 	}
 }

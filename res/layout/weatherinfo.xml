@@ -4,15 +4,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <TextView 
-        android:id="@+id/city_name"
+    <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:gravity="center"
-        android:background="#E6E6E1"
-        android:textColor="#5F5F5F"
-        />
-
+	    android:background="#E6E6E1">
+        
+        <Button 
+            android:id="@+id/switch_city"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#E6E6E1"
+            android:textColor="#5F5F5F"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="切换"
+            />
+        
+	    <TextView 
+	        android:id="@+id/city_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="30dp"
+	        android:gravity="center"
+	        android:layout_centerInParent="true"
+	        android:background="#E6E6E1"
+	        android:textColor="#5F5F5F"
+	        android:textSize="25sp"
+	        />
+	    <Button 
+            android:id="@+id/update"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#E6E6E1"
+            android:textColor="#5F5F5F"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="更新"
+            />
+	</RelativeLayout>
+	
     <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="0dp"

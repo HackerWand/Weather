@@ -51,13 +51,16 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自动生成的方法存根
 		super.onCreate(savedInstanceState);
+		Intent hIntent=getIntent();
+		Boolean isSwitch=hIntent.getBooleanExtra("switch", false);
 		
 		SharedPreferences pre= PreferenceManager.getDefaultSharedPreferences(this);
-		if(pre.getBoolean("selected", false)){
+		if(pre.getBoolean("selected", false)&&!isSwitch){
 			Intent intent =new Intent(this,WeatherInfo.class);
 			startActivity(intent);
 			finish();
 		}
+		
 		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mian_activity);
