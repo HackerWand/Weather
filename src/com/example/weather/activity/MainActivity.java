@@ -47,12 +47,14 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	protected TextView titleText=null;
 	protected ProgressDialog progress=null;
 	
+	protected Boolean isSwitch=false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO 自动生成的方法存根
 		super.onCreate(savedInstanceState);
 		Intent hIntent=getIntent();
-		Boolean isSwitch=hIntent.getBooleanExtra("switch", false);
+		isSwitch=hIntent.getBooleanExtra("switch", false);
 		
 		SharedPreferences pre= PreferenceManager.getDefaultSharedPreferences(this);
 		if(pre.getBoolean("selected", false)&&!isSwitch){
@@ -229,6 +231,10 @@ public class MainActivity extends Activity implements OnItemClickListener{
 		// TODO 自动生成的方法存根
 		switch (curlevel) {
 			case ISPROVINCE:
+				if(isSwitch){
+					Intent intent=new Intent(this,WeatherInfo.class);
+					startActivity(intent);
+				}
 				finish();
 				break;
 			case ISCITY:
